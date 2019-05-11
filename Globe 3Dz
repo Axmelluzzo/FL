@@ -1,0 +1,224 @@
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>Earth 3D</title>
+      <script type="text/javascript" src="js/three.js"></script>
+      <script type="text/javascript" src="js/OrbitControls.js"></script>
+      <script type="text/javascript" src="js/WebGL.js"></script>
+      <script type="text/javascript" src="js/Projector.js"></script>
+    </head>
+    <body>
+
+<div id="ThreeJS"></div>
+<script>
+
+
+
+  var camera, controls, scene, renderer, geometry;
+
+
+  init();
+
+  animate();
+
+  function init() {
+    // Three.js initialization
+    renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    container = document.getElementById( 'ThreeJS' );
+    container.appendChild(renderer.domElement);
+
+
+    camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, .1, 1000000);
+    camera.position.z = 8050;
+
+    controls = new THREE.OrbitControls( camera, renderer.domElement );
+                    controls.enableDamping = true; 
+                    controls.dampingFactor = .7;
+                    controls.screenSpacePanning = false;
+                    controls.update();
+                    controls.autoRotate = true;
+                    controls.autoRotateSpeed = .6;
+
+    // controls.keys = [ 65, 83, 68 ];
+
+    controls.addEventListener('change', render);
+
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color( 0x000000 );
+
+    var lightz = new THREE.AmbientLight( 0xffffff,10);
+                scene.add( lightz );
+
+
+    // Node geometry
+    geometry = new THREE.SphereGeometry(30);
+    
+
+  }
+
+
+setTimeout(drawNode(),100);
+
+
+
+
+
+
+
+
+
+
+
+                function drawNode() {
+
+      // texture = THREE.ImageUtils.loadTexture('js/earth.jpg', {}, function() {
+      // renderer.render(scene);
+      // });
+
+    var texture = new THREE.TextureLoader().load( 'js/earth.jpg' );
+    var material = new THREE.MeshBasicMaterial( { map: texture } );
+    var geometry = new THREE.SphereGeometry(1800,32,32);
+    var draw_object = new THREE.Mesh( geometry, material );
+
+    var area = 500;
+    draw_object.position.x = 0;
+    draw_object.position.y = 0;
+    draw_object.position.z = 0;
+
+    scene.add( draw_object );
+  };
+
+
+  // function drawNode() {
+  //   var geometry = new THREE.SphereGeometry(30);
+  //   var draw_object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( {  color: Math.random() * 0xe0e0e0, opacity: 0.8 } ) );
+
+  //   var area = 500;
+  //   draw_object.position.x = Math.floor(Math.random() * (area + area + 1) - area);
+  //   draw_object.position.y = Math.floor(Math.random() * (area + area + 1) - area);
+  //   draw_object.position.z = Math.floor(Math.random() * (area + area + 1) - area);
+
+  //   scene.add( draw_object );
+  // };
+
+
+
+
+/////////////// BEFORE TEXTURE LOADER
+  // texture = THREE.ImageUtils.loadTexture('js/earth.jpg', {}, function() {
+  //     renderer.render(scene);
+  //     });
+  //   var geometry = new THREE.SphereGeometry(800,32,32);
+  //   var draw_object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( { map: texture } ) );
+
+  //   var area = 500;
+  //   draw_object.position.x = 0;
+  //   draw_object.position.y = 0;
+  //   draw_object.position.z = 0;
+
+  //   scene.add( draw_object );
+  // };
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+for (i=0; i<280; i++){
+
+var geometry = new THREE.SphereGeometry(5,1,1);
+ var draw_object = new THREE.Mesh( geometry, new THREE.MeshBasicMaterial( {  color: 0xffffff} ) );
+
+ var area = 7000;
+draw_object.position.x = Math.floor(Math.random() * (area + area + 1) - area);
+draw_object.position.y = Math.floor(Math.random() * (area + area + 1) - area);
+draw_object.position.z = Math.floor(Math.random() * (area + area + 1) - area);
+
+scene.add( draw_object );
+
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+mouse2D = new THREE.Vector3(0, 10000, 0.5);
+
+
+
+
+
+document.addEventListener('click', onDocumentMouseClick, false);
+
+var pointArray = [];
+var pointSpecArray = [];
+
+    function onDocumentMouseClick(event) {
+
+        event.preventDefault();
+
+        mouse2D.x = (event.clientX / window.innerWidth) * 2 - 1;
+        mouse2D.y = -(event.clientY / window.innerHeight) * 2 + 1;
+         var vector = new THREE.Vector3( mouse2D.x, mouse2D.y, 0.5 );
+
+
+        projector = new THREE.Projector();
+        // projector.unprojectVector( vector, camera );
+
+        var raycaster = new THREE.Raycaster( camera.position, vector.sub( camera.position ).normalize() );
+        
+
+        var intersects = raycaster.intersectObjects( scene.children, true );
+
+        if (intersects.length > 0) {
+        console.log(intersects[0]);
+        pointArray.push(intersects[0]);
+        pointSpecArray.push(intersects[0].point);
+        }
+          
+
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  function animate() {
+    requestAnimationFrame( animate );
+    controls.update();
+    render();
+  }
+
+
+  function render() {
+    // render scene
+    renderer.render( scene, camera );
+  }
+
+
+  
+
+
+</script>
+</body>
+</html>
