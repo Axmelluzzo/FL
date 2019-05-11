@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="en" class="animated fadeIn"    style="background-color:rgb(204, 204, 204)">
+<style>
+/* Style the navigation menu */
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+  position: absolute;
+  width: 100%;
+}
+
+/* Hide the links inside the navigation menu (except for logo/home) */
+.topnav #myLinks {
+  display: none;
+}
+
+/* Style navigation menu links */
+.topnav a {
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  display: block;
+  font-family: 'Raleway', sans-serif;
+  height: 50px;
+}
+
+/* Style the hamburger menu */
+.topnav a.icon {
+  background: rgb(95, 95, 95);
+  display: block;
+  position: absolute;
+  height: 52px;
+  left: 0;
+  top: -2px;
+}
+
+/* Add a grey background color on mouse-over */
+.topnav2 a:hover {
+  background-color: #ddd;
+  color: black;
+  z-index: 99;
+  font-family: 'Raleway', sans-serif;
+}
+
+/* Style the active link (or home/logo) */
+.active {
+  background-color:rgb(0, 143, 210);
+  color: white;
+  height: 50px;
+}
+
+
+
+
+
+
+
+
+</style>
+
+
+
+
+
+
+
+
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+<!-- Bootstrap core CSS -->
+<!-- <link href="js/css/bootstrap.min.css" rel="stylesheet"> -->
+<!-- Material Design Bootstrap -->
+<link href="js/css/mdb.min.css" rel="stylesheet">
+<!-- Your custom styles (optional) -->
+<link href="js/css/style.css" rel="stylesheet">
+
+<script type="text/javascript" src="js/js/jquery-3.4.0.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="js/js/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="js/js/bootstrapz.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="js/js/mdb.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- Top Navigation Menu -->
+<div class="topnav">
+  <a href="" class="active"></a>
+  <!-- Navigation links (hidden by default) -->
+  <div id="myLinks" class="topnav2">
+    <a href="">My Saved Views</a>
+    <a href="#contact">Cigna Certified Views</a>
+    <a href="#about">FAQ / Documentation</a>
+    <a href="#about">Developer Support</a>
+  </div>
+  <!-- "Hamburger menu" / "Bar icon" to toggle the navigation links -->
+  <a href="javascript:void(0);" class="icon" onclick="ShowMenu()">
+    <i class="fa fa-bars" style="width:120%; height:120%;"></i>
+  </a>
+</div>
+
+
+
+
+
+
+
+
+<div id="clearList" >
+  <button  onclick="ClearSelection()"style="padding: 0px; background-color: rgb(56, 56, 56); font-size: 13px; font-family: 'Raleway', sans-serif; border-radius: 6px; height:35px; width:100px; z-index: 9999; right:661px; color:rgb(255,255,255); position: absolute; top:7px; text-align: center; vertical-align: middle;">
+Clear
+  </button>
+</div> 
+
+
+<div id="frontTitle" style="font-family: 'Raleway', sans-serif; top:10px; right:253px; position: absolute; color: white; font-size: 18px;">Select fields to visualize</div>
+
+
+</div>
+
+<div id="renderVisualization" >
+    <button    style="padding: 0px; background-color: rgb(56, 56, 56); font-size: 13px; font-family: 'Raleway', sans-serif; border-radius: 6px; height:35px; width:100px; z-index: 9999; right:2px; color:rgb(255,255,255); position: absolute; top:7px; text-align: center; vertical-align: middle;">
+  Visualize
+    </button>
+  </div> 
+
+
+
+
+
+
+
+
+  <li class="portlet-header blue darken-4 py-2 text-center white-text" style="font-weight:bolder; height:45px; font-size: 15px; text-align: center; vertical-align: middle;  border-top-left-radius: 6px; border-top-right-radius: 6px;"> 
+    Select fields to visualize 
+  </li>
+
+
+<ul id="sortable" class="list-group" style="width:550px; text-align:center;height:100px; position:absolute; top:45px; right: 107px;">
+    
+  </ul>
+
+
+
+
+
+<script>
+
+    
+
+$('#renderVisualization').click(function() {
+		$('#search').animate({
+		'marginTop' : "-293px" //moves up
+    });
+    
+    var clearbutton = document.getElementById("clearList");
+    var title = document.getElementById("frontTitle");
+    var rendered = document.getElementById("renderVisualization");
+    var selectList = document.getElementById("sortable");
+    var entertitle = document.getElementById("entrytitle");
+    var cigim = document.getElementById("cignaimage");
+
+    clearbutton.style.display = "none";
+    title.style.display = "none";
+    rendered.style.display = "none";
+    selectList.style.display = "none";
+    entertitle.style.display = "none";
+    cigim.style.display = "none";
+	});
+
+
+
+
+
+
+function ClearSelection(){
+  var ul = document.getElementById("sortable");
+  ul.innerHTML="";
+  // ul.innerHTML=""; 
+  // li.appendChild(document.createTextNode("Select fields to visualize"));
+  // li.setAttribute("class","portlet-header blue darken-4 py-2 text-center white-text");
+  // li.setAttribute("style","font-weight:bolder; height:45px; font-size: 15px; text-align: center; vertical-align: middle;  border-top-left-radius: 6px; border-top-right-radius: 6px;");
+  // ul.appendChild(li);
+}
+
+
+
+
+
+
+function AddtoList() {
+  var A = document.getElementById("cardTitle");
+  var b = A.innerText
+  var ul = document.getElementById("sortable");
+  var li = document.createElement("li");
+  li.appendChild(document.createTextNode(b));
+  li.setAttribute("class","list-group-item active");
+  li.setAttribute("top","2px;");
+  ul.appendChild(li);
+}
+
+$("#sortable").sortable();
+
+
+// function ringAbell(){
+//                       var A = document.getElementById("cardTitle");
+//                       alert(A.innerText);
+//               }
+
+
+
+
+function ShowMenu() {
+  var x = document.getElementById("myLinks");
+  if (x.style.display === "block") {
+    x.style.display = "none";
+  } else {
+    x.style.display = "block";
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<head style="background-color:rgb(204, 204, 204)">
+  <div style="height:200px;"></div>
+  <meta charset="utf-8">
+  <link href="https://fonts.googleapis.com/css?family=Raleway:700" rel="stylesheet">
+  <title>D3angular</title>
+  <base href="/">
+  <style>
+  dark{
+    background-color: aquamarine
+  }
+  </style>
+
+<script
+src="https://code.jquery.com/jquery-3.4.1.js"
+integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+crossorigin="anonymous"></script>
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="stylesheet" href="js/bootstrap.min.css">
+</head>
+<body style="background-color:rgb(204, 204, 204)">
+  <app-root></app-root>
+  <div class="animated fadeIn container mt-5" style="background-color:rgb(204, 204, 204)">
+      <div class="row">
+        <div class="col-md-6 m-auto">
+                <img id="cignaimage"  src="js/cigna_logo.png" style="width:38%;height:38%;position:relative; left:165px; top:-16px; z-index: 95;">
+            <h3 id="entrytitle" class="text-center mb-3" style="color:rgb(0, 143, 210); font-size: 28px; top:6px; word-wrap: none; word-break: keep-all;">
+              Enterprise Data Exploration
+            </h3>
+          <div class="form-group">
+            <input type="text" id="search" class="form-control form-contro -sm" placeholder="Type to search for data elements" style="text-align:center; height: 50px;">
+          </div>
+          <div id="match-list"></div>
+        </div>
+      </div>
+  </div>
+<script>
+
+
+
+
+
+
+  //Search JSON for data
+  const searchData = async searchText => {
+    const res = await fetch('js/data.json');
+    const data = await res.json();
+
+
+
+
+
+  // Get matches to current text input
+  let matches = data.filter(column => {
+    const regex = new RegExp(`^${searchText}`, 'gi');
+    return column.name.match(regex) || column.definition.match(regex);
+  });
+
+
+  //Clear if no matches
+  if(searchText.length === 0) {
+    matches = [];
+    matchList.innerHTML = '';
+  }
+
+  console.log(matches);
+
+  outputHtml(matches);
+
+  };
+
+
+
+  matchesarray=[];
+
+  // Show results in HTML
+  const outputHtml = matches => {
+      if(matches.length > 0){
+          var ab = function(match){
+            var index = matches.indexOf(match);
+          matchesarray.push(index);}
+
+            ab();
+
+          const html = matches.map(match => 
+          `
+          <div class="card card-body mb-1" id="cardClass" style="font-weight:bolder;">
+            <div style="display: inline-block; position: absolute; top:30px; left:490px; id="gobutton">
+              <span style="position:absolute;"><img onclick="javascript:AddtoList()" src="js/cert.png" title="Click to add this field" style="height:70%; width:70%; top:1px; right:0px;position:relative; z-index:999999;"></span>
+              <span style="position:absolute;"><img src="js/viz.png" title="Click to visualize this data" style="height:68%; width:68%; right:45px;position:relative;"></span>
+              <span><img src="js/action.png" title="Click to view similar fields" style="height:70%; width:70%; float:right; position:relative; right:100px;"></span>
+              </div>
+            <h6 id="cardTitle" style="font-color="rgb(255,255,255)">${match.name} - <span class="text-primary">${match.type}</span></h6>
+            <small style="width:70%">${match.definition}</small>
+            </div>
+          `).join('');
+          
+          console.log(html);
+          matchList.innerHTML = html;
+          }
+        };
+
+
+          
+
+
+       
+              // function ringAbell(){
+              //         var A = document.getElementById("cardTitle");
+              //         alert(A.innerText);
+              // }
+        
+
+
+
+  const search = document.getElementById('search');
+  var matchList = document.getElementById('match-list');
+  
+  search.addEventListener('input', () => searchData(search.value));
+
+
+
+</script>
+
+</body>
+</html>
